@@ -1,8 +1,14 @@
 using System.Xml;
 using UnityEngine;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Distancia")]
+    [SerializeField] private TextMeshProUGUI distanceText;
+    private float distance = 0f;
+
+    [Header("State Machines")]
     public StateMachine StateMachine { get; private set; }
 
     public RunState RunState { get; private set; }
@@ -15,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+
         StateMachine = new StateMachine();
         RunState = new RunState(this);
         JumpState = new JumpState(this);
@@ -30,6 +37,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        distance += Time.deltaTime;
+        distanceText.text = "Distancia:" + Mathf.FloorToInt(distance) + "[m]";
         StateMachine.CurrentState.UpdateState();
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -37,6 +46,7 @@ public class PlayerController : MonoBehaviour
             StateMachine.ChangeState(JumpState);
             rb2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
