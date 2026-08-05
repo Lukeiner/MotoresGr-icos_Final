@@ -20,13 +20,21 @@ public class ObstacleSpawner : MonoBehaviour
 
     private void SpawnObstacle()
     {
-        GameObject obstacle = ObjectPool.Instance.GetPooledObject();
+        GameObject obstacleObj = ObjectPool.Instance.GetPooledObject();
 
-        if (obstacle != null )
+        if (obstacleObj != null)
         {
-            obstacle.transform.position = spawnPoint.position;
-            obstacle.transform.rotation = spawnPoint.rotation;
-            obstacle.SetActive(true);
+            Obstacle obstacle = obstacleObj.GetComponent<Obstacle>();
+
+            // Posición base del Spawner + la altura propia que pide el obstáculo
+            Vector3 spawnPosition = new Vector3(
+                spawnPoint.position.x,
+                spawnPoint.position.y + obstacle.GetYOffset(),
+                spawnPoint.position.z);
+
+            obstacleObj.transform.position = spawnPosition;
+            obstacleObj.transform.rotation = spawnPoint.rotation;
+            obstacleObj.SetActive(true);
         }
     }
 }

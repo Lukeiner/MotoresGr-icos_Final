@@ -6,7 +6,7 @@ public class ObjectPool : MonoBehaviour
     public static ObjectPool Instance;
 
     [SerializeField] private GameObject[] obstaclePreFab;
-    [SerializeField] private int poolSize = 3;
+    [SerializeField] private int poolSize = 10;
 
     private List<GameObject> poolList = new List<GameObject>();
 
@@ -47,18 +47,26 @@ public class ObjectPool : MonoBehaviour
         poolList.Add(obj);
         return obj;
     }
-
     public GameObject GetPooledObject ()
     {
+        List<GameObject> availableObjects = new List<GameObject>();
+
         for (int i = 0; i < poolList.Count; i++)
         {
             if (!poolList[i].activeInHierarchy)
             {
-                return poolList[i];
+                availableObjects.Add(poolList[i]);
             }
         }
 
-        // Si se nos agotaron los desactivados, creamos uno nuevo sobre la marcha
+        // 2. Si hay al menos uno disponible, elegimos uno AL AZAR de esa lista
+        if (availableObjects.Count > 0)
+        {
+            int randomIndex = Random.Range(0, availableObjects.Count);
+            return availableObjects[randomIndex];
+        }
+
+        // 3. Si están todos ocupados en pantalla, creamos uno nuevo
         return CreateNewPooledObject();
     }
 }

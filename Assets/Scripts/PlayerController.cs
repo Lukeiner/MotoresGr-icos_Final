@@ -1,6 +1,7 @@
+using System;
 using System.Xml;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,10 +15,12 @@ public class PlayerController : MonoBehaviour
     public RunState RunState { get; private set; }
     public JumpState JumpState { get; private set; }
     //public CrouchState CrouchState { get; private set; }
-    //public DeadState DeadState { get; private set; }
+    public DeadState DeadState { get; private set; }
 
     [SerializeField] private Rigidbody2D rb2d;
     [SerializeField] private float jumpForce = 10f;
+
+    public static event Action OnPlayerDied;
 
     private void Awake()
     {
@@ -26,7 +29,7 @@ public class PlayerController : MonoBehaviour
         RunState = new RunState(this);
         JumpState = new JumpState(this);
         //CrouchState = new PlayerCrouchState(this);
-        //DeadState = new PlayerDeadState(this);
+        DeadState = new DeadState(this);
     }
 
     void Start()
@@ -57,7 +60,23 @@ public class PlayerController : MonoBehaviour
             if (StateMachine.CurrentState == JumpState)
             {
                 StateMachine.ChangeState(RunState);
-            }
+            }   
+        }
+        if (collision.gameObject.CompareTag("Obstaculo"))
+        {
+            Die();
+        }
+    }
+
+    public void TriggerDeathEvent()
+    {
+        OnPlayerDied?.Invoke(); // Avisa a todos los suscriptores (UI, GameManager, etc.)
+    }
+    public void Die()
+    {
+        if (StateMachine.CurrentState != DeadState)
+        {
+            StateMachine.ChangeState(DeadState);
         }
     }
 }
