@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+
     [Header("Distancia")]
     [SerializeField] private TextMeshProUGUI distanceText;
     private float distance = 0f;
@@ -29,6 +30,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce = 10f;
 
     public static event Action OnPlayerDied;
+
+    [Header("Shader de Muerte")]
+    [SerializeField] private SpriteRenderer playerSpriteRenderer;
+    [SerializeField] private float dissolveDuration = 1f;
 
     private void Awake()
     {
@@ -114,4 +119,29 @@ public class PlayerController : MonoBehaviour
             playerCollider.offset = originalColliderOffset;
         }
     }
+    public void StartDissolveEffect()
+    {
+        StartCoroutine(DissolveRoutine());
+    }
+
+    private System.Collections.IEnumerator DissolveRoutine()
+    {
+        Material mat = playerSpriteRenderer.material;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < dissolveDuration)
+        {
+            // Time.unscaledDeltaTime no se afecta si Time.timeScale es 0
+            elapsedTime += Time.unscaledDeltaTime;
+            float dissolveValue = Mathf.Lerp(0f, 1f, elapsedTime / dissolveDuration);
+
+            mat.SetFloat("_DissolveAmount", dissolveValue);
+
+            yield return null;
+        }
+
+        mat.SetFloat("_DissolveAmount", 1f);
+    }
+
+
 }
