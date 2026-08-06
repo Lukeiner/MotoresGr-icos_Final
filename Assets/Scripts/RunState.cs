@@ -12,6 +12,7 @@ public class RunState : IState
     public void Enter ()
     {
         player.gameObject.layer = LayerMask.NameToLayer("JugadorCorriendo");
+        player.PlayerAnimator.SetBool("isJumping", false);
         Debug.Log("Entrando al estado:Correr");
     }
 

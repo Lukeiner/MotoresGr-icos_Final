@@ -13,6 +13,9 @@ public class DeadState : IState
 
     public void Enter()
     {
+        if (player.PlayerAnimator != null)
+            player.PlayerAnimator.enabled = false;
+
         Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
@@ -22,11 +25,7 @@ public class DeadState : IState
             rb.bodyType = RigidbodyType2D.Static;
         }
 
-        // 4. (Opcional pero recomendado) Desactivamos collider para no empujar obstáculos
-        //Collider2D collider = player.GetComponent<Collider2D>();
-        //if (collider != null) collider.enabled = false;
 
-        // 5. Iniciamos la espera y el efecto
         player.StartCoroutine(WaitAndDieRoutine());
     }
     public void UpdateState ()
@@ -45,7 +44,7 @@ public class DeadState : IState
         player.StartDissolveEffect();
 
         // Esperamos 1 segundo (o la duración que le diste al dissolve)
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(1f);
 
         // 3. RECIÉN ACÁ notificamos al GameManager/UI que el juego terminó
         player.TriggerDeathEvent();

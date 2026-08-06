@@ -12,7 +12,6 @@ public class PlayerController : MonoBehaviour
 
     [Header("State Machines")]
     public StateMachine StateMachine { get; private set; }
-
     public RunState RunState { get; private set; }
     public JumpState JumpState { get; private set; }
     public CrouchState CrouchState { get; private set; }
@@ -34,6 +33,9 @@ public class PlayerController : MonoBehaviour
     [Header("Shader de Muerte")]
     [SerializeField] private SpriteRenderer playerSpriteRenderer;
     [SerializeField] private float dissolveDuration = 1f;
+
+    [SerializeField] private Animator animator;
+    public Animator PlayerAnimator => animator;
 
     private void Awake()
     {
@@ -69,9 +71,7 @@ public class PlayerController : MonoBehaviour
             StateMachine.ChangeState(JumpState);
             rb2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
-
     }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Suelo"))
@@ -139,7 +139,6 @@ public class PlayerController : MonoBehaviour
 
             yield return null;
         }
-
         mat.SetFloat("_DissolveAmount", 1f);
     }
 

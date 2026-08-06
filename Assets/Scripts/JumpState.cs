@@ -17,19 +17,18 @@ public class JumpState : IState
         player.gameObject.layer = LayerMask.NameToLayer("JugadorSaltando");
 
         //player.ApplyJumpForce();
+        player.PlayerAnimator.SetBool("isJumping", true);
 
-        // 3. Activar animación de salto (si ya tenés el Animator configurado)
-        // player.Animator.SetTrigger("Jump");
     }
 
     public void UpdateState()
     {
-        // En el estado de salto no escuchamos teclas para cambiar de estado, 
-        // simplemente esperamos a que la física nos haga tocar el suelo de nuevo.
+    
     }
 
     public void Exit()
     {
         Debug.Log("Saliendo de: JUMP STATE");
+        player.PlayerAnimator.SetBool("isJumping", false);
     }
 }
