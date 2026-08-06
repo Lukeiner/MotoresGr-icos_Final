@@ -6,7 +6,7 @@ public class ObjectPool : MonoBehaviour
     public static ObjectPool Instance;
 
     [SerializeField] private GameObject[] obstaclePreFab;
-    [SerializeField] private int poolSize = 10;
+    [SerializeField] private int poolSize = 12;
 
     private List<GameObject> poolList = new List<GameObject>();
 

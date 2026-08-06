@@ -14,8 +14,16 @@ public class PlayerController : MonoBehaviour
 
     public RunState RunState { get; private set; }
     public JumpState JumpState { get; private set; }
-    //public CrouchState CrouchState { get; private set; }
+    public CrouchState CrouchState { get; private set; }
     public DeadState DeadState { get; private set; }
+
+    [Header("Ajustes de Agachado")]
+    [SerializeField] private BoxCollider2D playerCollider; 
+    [SerializeField] private Transform spriteTransform;
+
+    private Vector3 originalSpriteScale;
+    private Vector2 originalColliderSize;
+    private Vector2 originalColliderOffset;
 
     [SerializeField] private Rigidbody2D rb2d;
     [SerializeField] private float jumpForce = 10f;
@@ -28,8 +36,15 @@ public class PlayerController : MonoBehaviour
         StateMachine = new StateMachine();
         RunState = new RunState(this);
         JumpState = new JumpState(this);
-        //CrouchState = new PlayerCrouchState(this);
+        CrouchState = new CrouchState(this);
         DeadState = new DeadState(this);
+
+        if (spriteTransform != null) originalSpriteScale = spriteTransform.localScale;
+        if (playerCollider != null)
+        {
+            originalColliderSize = playerCollider.size;
+            originalColliderOffset = playerCollider.offset;
+        }
     }
 
     void Start()
@@ -77,6 +92,26 @@ public class PlayerController : MonoBehaviour
         if (StateMachine.CurrentState != DeadState)
         {
             StateMachine.ChangeState(DeadState);
+        }
+    }
+
+    public void ToggleCrouch(bool isCrouching)
+    {
+        if (isCrouching)
+        {
+            // Reducimos la altura Y un 30% (queda al 70% / 0.7f)
+            spriteTransform.localScale = new Vector3(originalSpriteScale.x, originalSpriteScale.y * 0.7f, originalSpriteScale.z);
+
+            // Reducimos la caja de colisión en Y y reajustamos el offset para que el piso no lo trague
+            playerCollider.size = new Vector2(originalColliderSize.x, originalColliderSize.y * 0.7f);
+            playerCollider.offset = new Vector2(originalColliderOffset.x, originalColliderOffset.y * 0.7f);
+        }
+        else
+        {
+            // Restauramos los valores originales
+            spriteTransform.localScale = originalSpriteScale;
+            playerCollider.size = originalColliderSize;
+            playerCollider.offset = originalColliderOffset;
         }
     }
 }

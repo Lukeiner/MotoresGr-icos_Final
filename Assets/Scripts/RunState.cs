@@ -19,11 +19,14 @@ public class RunState : IState
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            //player.StateMachine.ChangeState(player.JumpState);
+            player.StateMachine.ChangeState(player.JumpState);
         }
-
+        // Transición a Agacharse
+        else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            player.StateMachine.ChangeState(player.CrouchState);
+        }
     }
-
     public void Exit ()
     {
         Debug.Log("Saliendo de: Correr");
