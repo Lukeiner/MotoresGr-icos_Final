@@ -27,7 +27,7 @@ public abstract class SpawnableObject : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
-    public float GetYOffset()
+    public virtual float GetYOffset()
     {
         return yOffset;
     }

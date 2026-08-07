@@ -8,6 +8,8 @@ public class Collectible : SpawnableObject
     [Header("Ajustes del Recolectable")]
     [SerializeField] private int pointsValue = 50;
 
+    [SerializeField] private float[] possibleYOffsets = new float[] { 0.4f, 1f, 2.5f };
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -15,5 +17,18 @@ public class Collectible : SpawnableObject
             OnCollected?.Invoke(pointsValue);
             gameObject.SetActive(false); 
         }
+    }
+
+    public override float GetYOffset()
+    {
+        // Si hay alturas configuradas en el arreglo, elegimos una al azar
+        if (possibleYOffsets != null && possibleYOffsets.Length > 0)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, possibleYOffsets.Length);
+            return possibleYOffsets[randomIndex];
+        }
+
+        // Si el arreglo está vacío por error, usa el 'yOffset' base como respaldo
+        return base.GetYOffset();
     }
 }

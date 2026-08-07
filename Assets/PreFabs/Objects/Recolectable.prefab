@@ -152,9 +152,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cd807f13371a5a4aa43d5d1d3bdf5f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Collectible
-  pointsValue: 50
   speed: 5
   xBound: -10
+  yOffset: 0
+  pointsValue: 50
+  possibleYOffsets:
+  - 0.4
+  - 1
+  - 2.5
 --- !u!95 &1727182889562999069
 Animator:
   serializedVersion: 7
