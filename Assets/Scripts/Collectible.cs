@@ -21,14 +21,13 @@ public class Collectible : SpawnableObject
 
     public override float GetYOffset()
     {
-        // Si hay alturas configuradas en el arreglo, elegimos una al azar
+       
         if (possibleYOffsets != null && possibleYOffsets.Length > 0)
         {
             int randomIndex = UnityEngine.Random.Range(0, possibleYOffsets.Length);
             return possibleYOffsets[randomIndex];
         }
 
-        // Si el arreglo está vacío por error, usa el 'yOffset' base como respaldo
         return base.GetYOffset();
     }
 }
