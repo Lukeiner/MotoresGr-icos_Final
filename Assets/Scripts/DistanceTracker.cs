@@ -13,7 +13,6 @@ public class DistanceTracker : MonoBehaviour
     private void OnEnable()
     {
         PlayerController.OnPlayerDied += StopTracking;
-        Collectible.OnCollected += AddBonusDistance;
 
         isTracking = true;
     }
@@ -21,7 +20,6 @@ public class DistanceTracker : MonoBehaviour
     private void OnDisable()
     {
         PlayerController.OnPlayerDied -= StopTracking;
-        Collectible.OnCollected -= AddBonusDistance;
     }
 
     private void Update()

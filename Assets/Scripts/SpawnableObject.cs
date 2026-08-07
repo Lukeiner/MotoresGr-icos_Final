@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SpawnableObject : MonoBehaviour
+public abstract class SpawnableObject : MonoBehaviour
 {
     [Header("Ajustes Base de Spawn")]
     [SerializeField] protected float speed = 5f;

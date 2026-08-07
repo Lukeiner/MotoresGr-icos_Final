@@ -8,6 +8,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private TextMeshProUGUI scoreText;
     private float currentScore = 0f;
+
+    [SerializeField] private AudioSource sonidito;
     private void Awake()
     {
         if (Instance == null)
@@ -46,6 +48,7 @@ public class UIManager : MonoBehaviour
 
     private void AddBonusPoints(int amount)
     {
+        sonidito.Play();
         currentScore += amount;
         Debug.Log($"¡Recolectable juntado! +{amount} pts");
         scoreText.text = "Puntaje: " + Mathf.FloorToInt(currentScore);

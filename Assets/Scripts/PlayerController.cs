@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Animator animator;
     public Animator PlayerAnimator => animator;
+    [SerializeField] AudioSource saltito;
 
     private void Awake()
     {
@@ -56,6 +57,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            saltito.Play();
             StateMachine.ChangeState(JumpState);
             rb2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
