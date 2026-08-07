@@ -20,11 +20,8 @@ public abstract class SpawnableObject : MonoBehaviour
     protected virtual void Update()
     {
         if (!isMoving) return;
-
-        // Desplazamiento común hacia la izquierda
         transform.Translate(Vector3.left * speed * Time.deltaTime);
 
-        // Se desactiva solo si sale de la pantalla
         if (transform.position.x < xBound)
         {
             gameObject.SetActive(false);

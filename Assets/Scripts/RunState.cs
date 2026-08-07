@@ -20,7 +20,6 @@ public class RunState : IState
         {
             player.StateMachine.ChangeState(player.JumpState);
         }
-        // Transición a Agacharse
         else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
             player.StateMachine.ChangeState(player.CrouchState);
