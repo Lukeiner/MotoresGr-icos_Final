@@ -8,14 +8,12 @@ public class RunState : IState
     {
         this.player = player;
     }
-
     public void Enter ()
     {
         player.gameObject.layer = LayerMask.NameToLayer("JugadorCorriendo");
         player.PlayerAnimator.SetBool("isJumping", false);
         Debug.Log("Entrando al estado:Correr");
     }
-
     public void UpdateState ()
     {
         if (Input.GetKeyDown(KeyCode.Space))

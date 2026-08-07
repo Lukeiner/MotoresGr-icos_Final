@@ -21,14 +21,12 @@ public class PauseMenu : MonoBehaviour
             }
         }
     }
-
     public void Reanudar ()
     {
         pauseMenu.SetActive(false);
         Time.timeScale = 1;
         gamePaused = false;
     }
-
     public void Pausar()
     {
         pauseMenu.SetActive(true);

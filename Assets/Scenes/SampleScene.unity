@@ -2147,6 +2147,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 861746028}
+  - component: {fileID: 861746031}
   - component: {fileID: 861746030}
   - component: {fileID: 861746029}
   m_Layer: 0
@@ -2200,8 +2201,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b33164b92d81b4f42b2486424f5c103a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
+  distanceText: {fileID: 531804389}
   gameOverPanel: {fileID: 449057411}
   scoreText: {fileID: 1974303019}
+--- !u!114 &861746031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861746027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cc3c162d088499428bac3ae239877c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DistanceTracker
+  metersPerSecond: 10
 --- !u!1 &864369739
 GameObject:
   m_ObjectHideFlags: 0
@@ -3544,7 +3559,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 142fa3a03b7c28b46a80cf5b45b37146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  distanceText: {fileID: 531804389}
   playerCollider: {fileID: 1538813459}
   spriteTransform: {fileID: 1538813462}
   rb2d: {fileID: 1538813460}

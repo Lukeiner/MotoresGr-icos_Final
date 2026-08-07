@@ -13,7 +13,7 @@ public class Collectible : SpawnableObject
         if (other.CompareTag("Player"))
         {
             OnCollected?.Invoke(pointsValue);
-            gameObject.SetActive(false); // Se recicla en el pool
+            gameObject.SetActive(false); 
         }
     }
 }

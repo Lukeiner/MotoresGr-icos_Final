@@ -4,11 +4,10 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
-
+    [SerializeField] private TextMeshProUGUI distanceText;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private TextMeshProUGUI scoreText;
     private float currentScore = 0f;
-
     private void Awake()
     {
         if (Instance == null)
@@ -19,23 +18,23 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
     }
-
     private void OnEnable()
     {
-        // Nos suscribimos al evento del Jugador (Observer)
         PlayerController.OnPlayerDied += ShowGameOverScreen;
         Collectible.OnCollected += AddBonusPoints;
+        DistanceTracker.OnDistanceUpdated += UpdateDistanceUI;
     }
-
     private void OnDisable()
     {
-        // Siempre desuscribirse para evitar fugas de memoria
         PlayerController.OnPlayerDied -= ShowGameOverScreen;
         Collectible.OnCollected -= AddBonusPoints;
+        DistanceTracker.OnDistanceUpdated -= UpdateDistanceUI;
     }
-
+    private void UpdateDistanceUI(int meters)
+    {
+        distanceText.text = $"Distancia: {meters}m";
+    }
     public void ShowGameOverScreen()
     {
         Debug.Log("UI reacciona a la muerte del jugador.");
@@ -43,20 +42,18 @@ public class UIManager : MonoBehaviour
         {
             gameOverPanel.SetActive(true);
         }
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 
     private void AddBonusPoints(int amount)
     {
         currentScore += amount;
         Debug.Log($"¡Recolectable juntado! +{amount} pts");
-        // Actualiza el texto en pantalla inmediatamente
         scoreText.text = "Puntaje: " + Mathf.FloorToInt(currentScore);
     }
 
     public void RestartGame()
     {
-        Time.timeScale = 1f; // Aseguramos que el tiempo vuelva a 1
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

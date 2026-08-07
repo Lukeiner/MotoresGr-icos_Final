@@ -6,9 +6,7 @@ public class SpawnableObject : MonoBehaviour
     [SerializeField] protected float speed = 5f;
     [SerializeField] protected float xBound = -10f;
     [SerializeField] protected float yOffset = 0f;
-
     protected bool isMoving = true;
-
     protected virtual void OnEnable()
     {
         PlayerController.OnPlayerDied += StopMoving;
@@ -19,7 +17,6 @@ public class SpawnableObject : MonoBehaviour
     {
         PlayerController.OnPlayerDied -= StopMoving;
     }
-
     protected virtual void Update()
     {
         if (!isMoving) return;
@@ -33,12 +30,10 @@ public class SpawnableObject : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
-
     public float GetYOffset()
     {
         return yOffset;
     }
-
     protected virtual void StopMoving()
     {
         isMoving = false;

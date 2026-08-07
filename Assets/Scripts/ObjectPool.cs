@@ -9,8 +9,6 @@ public class ObjectPool : MonoBehaviour
     [SerializeField] private int poolSize = 12;
 
     private List<GameObject> poolList = new List<GameObject>();
-
-
     private void Awake()
     {
         if (Instance == null)
@@ -22,7 +20,6 @@ public class ObjectPool : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
     private void Start()
     {
         for (int i = 0; i < poolSize; i++)
@@ -30,7 +27,6 @@ public class ObjectPool : MonoBehaviour
             CreateNewPooledObject();
         }
     }
-
     private GameObject CreateNewPooledObject()
     {
         if (obstaclePreFab.Length == 0)
@@ -38,8 +34,6 @@ public class ObjectPool : MonoBehaviour
             Debug.LogError("¡No asignaste prefabs en el array 'obstaclePrefabs'!");
             return null;
         }
-
-        // Elegimos un prefab al azar entre las opciones (Bajo, Medio, Alto)
         int randomIndex = Random.Range(0, obstaclePreFab.Length);
         GameObject obj = Instantiate(obstaclePreFab[randomIndex]);
 
@@ -58,15 +52,11 @@ public class ObjectPool : MonoBehaviour
                 availableObjects.Add(poolList[i]);
             }
         }
-
-        // 2. Si hay al menos uno disponible, elegimos uno AL AZAR de esa lista
         if (availableObjects.Count > 0)
         {
             int randomIndex = Random.Range(0, availableObjects.Count);
             return availableObjects[randomIndex];
         }
-
-        // 3. Si están todos ocupados en pantalla, creamos uno nuevo
         return CreateNewPooledObject();
     }
 }

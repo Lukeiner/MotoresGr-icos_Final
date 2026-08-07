@@ -1,15 +1,9 @@
 using System;
 using System.Xml;
-using TMPro;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
-    [Header("Distancia")]
-    [SerializeField] private TextMeshProUGUI distanceText;
-    private float distance = 0f;
-
     [Header("State Machines")]
     public StateMachine StateMachine { get; private set; }
     public RunState RunState { get; private set; }
@@ -39,7 +33,6 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-
         StateMachine = new StateMachine();
         RunState = new RunState(this);
         JumpState = new JumpState(this);
@@ -53,17 +46,12 @@ public class PlayerController : MonoBehaviour
             originalColliderOffset = playerCollider.offset;
         }
     }
-
     void Start()
     {
         StateMachine.Initialize(RunState);   
     }
-
-    // Update is called once per frame
     void Update()
     {
-        distance += Time.deltaTime;
-        distanceText.text = "Distancia:" + Mathf.FloorToInt(distance) + "[m]";
         StateMachine.CurrentState.UpdateState();
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -76,7 +64,6 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Suelo"))
         {
-            // Si estábamos saltando y tocamos suelo, volvemos a Correr
             if (StateMachine.CurrentState == JumpState)
             {
                 StateMachine.ChangeState(RunState);
@@ -87,10 +74,9 @@ public class PlayerController : MonoBehaviour
             Die();
         }
     }
-
     public void TriggerDeathEvent()
     {
-        OnPlayerDied?.Invoke(); // Avisa a todos los suscriptores (UI, GameManager, etc.)
+        OnPlayerDied?.Invoke();
     }
     public void Die()
     {
@@ -104,16 +90,13 @@ public class PlayerController : MonoBehaviour
     {
         if (isCrouching)
         {
-            // Reducimos la altura Y un 30% (queda al 70% / 0.7f)
+            
             spriteTransform.localScale = new Vector3(originalSpriteScale.x, originalSpriteScale.y * 0.7f, originalSpriteScale.z);
-
-            // Reducimos la caja de colisión en Y y reajustamos el offset para que el piso no lo trague
             playerCollider.size = new Vector2(originalColliderSize.x, originalColliderSize.y * 0.7f);
             playerCollider.offset = new Vector2(originalColliderOffset.x, originalColliderOffset.y * 0.7f);
         }
         else
         {
-            // Restauramos los valores originales
             spriteTransform.localScale = originalSpriteScale;
             playerCollider.size = originalColliderSize;
             playerCollider.offset = originalColliderOffset;
@@ -123,7 +106,6 @@ public class PlayerController : MonoBehaviour
     {
         StartCoroutine(DissolveRoutine());
     }
-
     private System.Collections.IEnumerator DissolveRoutine()
     {
         Material mat = playerSpriteRenderer.material;
@@ -131,7 +113,6 @@ public class PlayerController : MonoBehaviour
 
         while (elapsedTime < dissolveDuration)
         {
-            // Time.unscaledDeltaTime no se afecta si Time.timeScale es 0
             elapsedTime += Time.unscaledDeltaTime;
             float dissolveValue = Mathf.Lerp(0f, 1f, elapsedTime / dissolveDuration);
 

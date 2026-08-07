@@ -19,9 +19,7 @@ public class DeadState : IState
         Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            // 2. FRENAMOS TODA VELOCIDAD ACTUAL
             rb.linearVelocity = Vector2.zero;
-            // 3. HACEMOS EL BODY 'STATIC' (no le afecta gravedad ni fuerzas)
             rb.bodyType = RigidbodyType2D.Static;
         }
 
@@ -37,16 +35,10 @@ public class DeadState : IState
     {
 
     }
-
     private IEnumerator WaitAndDieRoutine()
     {
-        // Dispara la corrutina que mueve el _DissolveAmount de 0 a 1
         player.StartDissolveEffect();
-
-        // Esperamos 1 segundo (o la duración que le diste al dissolve)
         yield return new WaitForSeconds(1f);
-
-        // 3. RECIÉN ACÁ notificamos al GameManager/UI que el juego terminó
         player.TriggerDeathEvent();
     }
 
